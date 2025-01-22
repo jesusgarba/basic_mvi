@@ -1,6 +1,6 @@
 package com.schugarba.basicmvi.view
 
 sealed class MainIntent {
-    object FetxhAnimals: MainIntent()
+    object FetchhAnimals: MainIntent()
 
 }

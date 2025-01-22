@@ -1,6 +1,5 @@
 package com.schugarba.basicmvi.view
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,7 +22,7 @@ class MainViewModel(private val repo: AnimalRepo) : ViewModel() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect { collector ->
                 when (collector) {
-                    is MainIntent.FetxhAnimals -> fetchAnimals()
+                    is MainIntent.FetchhAnimals -> fetchAnimals()
                 }
             }
         }
