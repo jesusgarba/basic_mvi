@@ -3,12 +3,12 @@ package com.schugarba.basicmvi.view
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.schugarba.basicmvi.api.AnimalRepo
+import com.schugarba.basicmvi.api.TodoRepo
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val repo: AnimalRepo) : ViewModel() {
+class MainViewModel(private val repo: TodoRepo) : ViewModel() {
 
     val userIntent = Channel<MainIntent>(Channel.UNLIMITED)
     var state = mutableStateOf<MainState>(MainState.Idle)
@@ -22,17 +22,17 @@ class MainViewModel(private val repo: AnimalRepo) : ViewModel() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect { collector ->
                 when (collector) {
-                    is MainIntent.FetchhAnimals -> fetchAnimals()
+                    is MainIntent.FetchTodos -> fetchTodos()
                 }
             }
         }
     }
 
-    private fun fetchAnimals() {
+    private fun fetchTodos() {
         viewModelScope.launch {
             state.value = MainState.Loading
             state.value = try {
-                MainState.Animals(repo.getAnimals())
+                MainState.Todos(repo.getTodos())
             } catch (e: Exception) {
                 MainState.Error(e.localizedMessage)
             }
